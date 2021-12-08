@@ -229,6 +229,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/08/ES6note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xuwq">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xuwq233">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/12/08/ES6note/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-12-08T13:29:58+08:00">
+                2021-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/12/08/ES6note/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/12/08/ES6note/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="简单的ES6笔记"><a href="#简单的ES6笔记" class="headerlink" title="简单的ES6笔记"></a>简单的ES6笔记</h1><h2 id="var与let"><a href="#var与let" class="headerlink" title="var与let"></a>var与let</h2><p>var:当使用var时，变量被全局声明或者在function内被声明；预编译时有变量提升hoisting</p>
+<p>let:let也可以定义全局变量或者局部变量。除此之外，在block, statement, or expression内使用let声明全局变量，它的作用域会被限制在block, statement, or expression内。</p>
+<p>###let声明不会被提升</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function getValue(condition)&#123;</span><br><span class="line">    //相当于var value;</span><br><span class="line">    if(condition)&#123;</span><br><span class="line">        var value = &apos;blue&apos;;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(getValue(true));//blue</span><br><span class="line">console.log(getValue(false));//undefined</span><br></pre></td></tr></table></figure>
+
+<p>预编译时，变量声明被提升到逻辑最前(未执行到赋值语句之前，在AO里value=undefined),而初始化操作留在原地。这就意味着在整个函数内部均可访问到value.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function getValue(condition)&#123;</span><br><span class="line">    if(condition)&#123;</span><br><span class="line">        let value = &apos;blue&apos;;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">       //变量value在此处不存在</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(getValue(true));//blue</span><br><span class="line">console.log(getValue(false));//null</span><br></pre></td></tr></table></figure>
+
+<p>变量value由关键字let声明，不再被提升到函数顶部，作用于被限制在if{}块内。condition为true的情况：执行流离开if块后，value立刻被销毁。condition为false的情况：永远不会声明并初始化value。</p>
+<p>###let禁止重复声明<br>所以代码量较大的工程中使用let可以防止变量不小心被overwrite</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var num = 123;</span><br><span class="line">var num =&apos;abc&apos;;</span><br><span class="line">console.log(num);</span><br><span class="line">//abc</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var num = 123;</span><br><span class="line">let num = &apos;abc&apos;;</span><br><span class="line">//Uncaught SyntaxError: Identifier &apos;num&apos; has already been declared</span><br></pre></td></tr></table></figure>
+
+<p><strong>同一作用域内</strong>不能用let重复定义已经存在的标识符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var num = 123;</span><br><span class="line">if(1)&#123;</span><br><span class="line">    let num = &apos;abc&apos;;</span><br><span class="line">    console.log(num);//abc</span><br><span class="line">    console.log(window.num);//123</span><br><span class="line">&#125;</span><br><span class="line">console.log(num);/123</span><br></pre></td></tr></table></figure>
+
+<p>此处的let是在if块内声明了新变量num（两个num所处执行期上下文不同，即作用域不同），因此不会报错；在if块的作用域链，let声明的num位于链首指向的区域，会优先访问，而var声明num位于全局对象上，只用使用window.num才可以访问到。if块执行结束后，let声明的num永远不会被访问到。</p>
+<h3 id="let与循环块级作用域"><a href="#let与循环块级作用域" class="headerlink" title="let与循环块级作用域"></a>let与循环块级作用域</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var printNumTwo;</span><br><span class="line">for (var i = 0; i &lt; 3; i++) &#123;</span><br><span class="line">  if (i === 2) &#123;</span><br><span class="line">    printNumTwo = function() &#123;</span><br><span class="line">      return i;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(printNumTwo());//3</span><br><span class="line">console.log(i);//3</span><br></pre></td></tr></table></figure>
+
+<p>此处var定义的是全局变量i，i的值会随着for循环不断更新，printNumTwo执行时访问的是全局的i（已更新为3）.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let printNumTwo;</span><br><span class="line">for (let i = 0; i &lt; 3; i++) &#123;</span><br><span class="line">  if (i === 2) &#123;</span><br><span class="line">    printNumTwo = function() &#123;</span><br><span class="line">      return i;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(printNumTwo());//2</span><br><span class="line">console.log(i);//Uncaught ReferenceError: i is not defined</span><br></pre></td></tr></table></figure>
+
+<p>let声明的i是块级作用域,只能在代码块中起作用，在js中一个{}中的语句也称为一个代码块，<strong>每次循环会产生一个代码块，每个代码块中的都是一个新的变量i</strong>;此处for循环语句创造出了三个不同的i（值为0，1，2）<br>跳出for循环语句i就不存在了，所以访问i会显示未定义</p>
+<p>for循环过程大致可以表示为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//生成了三个代码块，为每次循环创建独立的变量</span><br><span class="line">&#123;</span><br><span class="line">    let i = 0；</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    let i = 1；</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    let i = 2；</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/26/ajax/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -679,7 +835,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -720,7 +876,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
